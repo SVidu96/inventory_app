@@ -83,4 +83,5 @@ class DefaultFirebaseOptions {
     authDomain: 'inventory-app-7428b.firebaseapp.com',
     storageBucket: 'inventory-app-7428b.firebasestorage.app',
   );
+
 }
