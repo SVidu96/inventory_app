@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter/services.dart';
 
 class PricesListPage extends StatefulWidget {
   const PricesListPage({super.key});
@@ -15,14 +16,35 @@ class _PricesListPageState extends State<PricesListPage> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text('QR Code'),
-        content: SizedBox(
-          width: 220,
-          height: 220,
-          child: QrImageView(
-            data: productId.toString(),
-            version: QrVersions.auto,
-            size: 200.0,
-          ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 220,
+              height: 220,
+              child: QrImageView(
+                data: productId.toString(),
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.copy),
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: productId.toString()));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Product ID copied to clipboard')),
+                    );
+                  },
+                ),
+                Text('Product ID: $productId'),
+              ],
+            ),
+          ],
         ),
         actions: [
           TextButton(
