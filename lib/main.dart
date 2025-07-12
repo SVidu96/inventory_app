@@ -5,10 +5,8 @@ import 'package:inventory_app/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-await Firebase.initializeApp(
-  options: DefaultFirebaseOptions.currentPlatform,
-);
-runApp(const MyApp());
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,9 +19,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Inventory App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        colorScheme: ColorScheme.fromSeed(
+          primary: Colors.deepPurpleAccent, // Vibrant Red
+          secondary: Colors.blueGrey, // Deep Blue
+          seedColor: Colors.deepPurpleAccent, // Vibrant Red
+        ),
       ),
-      home: HomePage()
+      home: HomePage(),
     );
   }
 }

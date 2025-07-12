@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'add_product_page.dart';
 import 'price_check_page.dart';
+import 'prices_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   static final List<Widget> _pages = <Widget>[
     PriceCheckPage(),
     AddProductPage(),
+    PricesListPage(),
     Center(child: Text('Settings')), // Placeholder for Settings
   ];
 
@@ -29,6 +31,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.yellow,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.secondary,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         items: const [
@@ -39,6 +44,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.add_circle),
             label: 'Add Product',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Prices List',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
