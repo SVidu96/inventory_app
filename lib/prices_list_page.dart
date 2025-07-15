@@ -11,11 +11,11 @@ class PricesListPage extends StatefulWidget {
 }
 
 class _PricesListPageState extends State<PricesListPage> {
-  void _showQrCode(BuildContext context, dynamic productId) {
+  void _showQrCode(BuildContext context, Map<String, dynamic> product) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('QR Code'),
+        title: Text(product['name']),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,7 +24,7 @@ class _PricesListPageState extends State<PricesListPage> {
               width: 220,
               height: 220,
               child: QrImageView(
-                data: productId.toString(),
+                data: product['productid'] ?? '',
                 version: QrVersions.auto,
                 size: 200.0,
               ),
@@ -35,15 +35,16 @@ class _PricesListPageState extends State<PricesListPage> {
                 IconButton(
                   icon: Icon(Icons.copy),
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: productId.toString()));
+                    Clipboard.setData(ClipboardData(text: product['productid'] ?? ''));
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text('Product ID copied to clipboard')),
                     );
                   },
                 ),
-                Text('Product ID: $productId'),
+                Text('Product ID: ${product['productid'] ?? 'N/A'}'),
               ],
             ),
+            Text("Price: \$${product['price']}"),
           ],
         ),
         actions: [
@@ -70,7 +71,14 @@ class _PricesListPageState extends State<PricesListPage> {
   Future<void> _fetchProducts() async {
     final query = await FirebaseFirestore.instance.collection('products').get();
     setState(() {
-      _allProducts = query.docs.map((doc) => doc.data()).toList();
+      _allProducts = query.docs.map((doc) {
+        final data = doc.data();
+        // Ensure productid is always a string
+        if (data['productid'] != null) {
+          data['productid'] = data['productid'].toString();
+        }
+        return data;
+      }).toList();
       _filteredProducts = List.from(_allProducts);
     });
   }
@@ -124,9 +132,12 @@ class _PricesListPageState extends State<PricesListPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                         child: ListTile(
                           title: Text(product['name'] ?? 'No Name'),
-                          subtitle: Text('Price: ${product['price'] ?? '-'}'),
+                          subtitle: Text('Price: \$${product['price'] ?? '-'}'),
                           trailing: Text('ID: ${product['productid'] ?? '-'}'),
-                          onTap: () => _showQrCode(context, product['productid']),
+                          onTap: () => _showQrCode(context, { 
+                            'productid': product['productid'] ?? '',
+                            'name': product['name'] ?? '',
+                            'price': product['price'] ?? ''}),
                         ),
                       );
                     },

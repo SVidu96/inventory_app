@@ -28,11 +28,11 @@ class _AddProductPageState extends State<AddProductPage> {
   String? _errorMessage;
 
   Future<void> _searchProduct() async {
-    final productId = int.tryParse(_barcodeController.text.trim()) ?? -1;
+    final productId = _barcodeController.text.trim();
     setState(() {
       _errorMessage = null;
     });
-    if (productId == -1) {
+    if (productId.isEmpty) {
       setState(() {
         _errorMessage = 'Please enter or scan a product ID.';
       });
@@ -64,12 +64,12 @@ class _AddProductPageState extends State<AddProductPage> {
     }
   }
   Future<void> _addOrUpdateProduct() async {
-    final productId = int.tryParse(_barcodeController.text.trim()) ?? -1;
+    final productId = _barcodeController.text.trim();
     final name = _nameController.text.trim();
     final price = double.tryParse(_priceController.text.trim()) ?? 0.0;
     final type = _selectedType;
 
-    if (productId == -1 || name.isEmpty || price <= 0) {
+    if (productId.isEmpty || name.isEmpty || price <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please fill all fields with valid values.')),
       );
@@ -96,7 +96,7 @@ class _AddProductPageState extends State<AddProductPage> {
       } else {
         // Add new product
         await FirebaseFirestore.instance.collection('products').add({
-          'productid': productId, // store as int
+          'productid': productId, // store as string
           'name': name,
           'price': price,
           'producttype': type,

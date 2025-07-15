@@ -31,12 +31,12 @@ class _PriceCheckPageState extends State<PriceCheckPage> {
   String? _errorMessage; // Store error message
 
   Future<void> _searchProduct() async {
-    final productId = int.tryParse(_barcodeController.text.trim()) ?? -1; // Default to -1 if parsing fails
+    final productId = _barcodeController.text.trim();
     setState(() {
       _foundProduct = null;
       _errorMessage = null;
     });
-    if (productId == -1) {
+    if (productId.isEmpty) {
       setState(() {
         _errorMessage = 'Please enter or scan a product ID.';
       });
