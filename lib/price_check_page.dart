@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inventory_app/add_product_page.dart';
 import 'qr_scanner_page.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -145,9 +146,30 @@ class _PriceCheckPageState extends State<PriceCheckPage> {
           if (_errorMessage != null)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Text(
-                _errorMessage!,
-                style: TextStyle(color: Colors.red),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _errorMessage!,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  if (_errorMessage == 'Product not found.')
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: ElevatedButton.icon(
+                        icon: Icon(Icons.add),
+                        label: Text('Add Product'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddProductPage(initialProductId: _barcodeController.text.trim()),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                ],
               ),
             ),
           if (_foundProduct != null)

@@ -18,7 +18,8 @@ const Map<int, String> productTypeMap = {
 };
 
 class AddProductPage extends StatefulWidget {
-  const AddProductPage({super.key});
+  final String? initialProductId;
+  const AddProductPage({super.key, this.initialProductId});
 
   @override
   State<AddProductPage> createState() => _AddProductPageState();
@@ -159,6 +160,10 @@ class _AddProductPageState extends State<AddProductPage> {
   }
   @override
   Widget build(BuildContext context) {
+    // If initialProductId is provided, set it to the barcode controller (only once)
+    if (widget.initialProductId != null && _barcodeController.text.isEmpty) {
+      _barcodeController.text = widget.initialProductId!;
+    }
     return Scaffold(
       appBar: AppBar(title: const Text('Add Product')),
       body: SingleChildScrollView(
