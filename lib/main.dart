@@ -17,12 +17,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Inventory App',
+      title: 'Jayhawk Liquor Inventory',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          primary: Colors.deepPurpleAccent, // Vibrant Red
-          secondary: Colors.blueGrey, // Deep Blue
-          seedColor: Colors.deepPurpleAccent, // Vibrant Red
+          primary: const Color.fromARGB(255, 13, 110, 253),
+          secondary: const Color.fromARGB(255, 173, 181, 189),
+          seedColor: const Color.fromARGB(255, 13, 110, 253),
+          error: Color.fromARGB(255,220, 53, 69)
         ),
       ),
       home: HomePage(),

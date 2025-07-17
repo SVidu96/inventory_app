@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     PriceCheckPage(),
     AddProductPage(),
     PricesListPage(),
-    Center(child: Text('Settings')), // Placeholder for Settings
+    Center(child: Text('V2.0')), // Placeholder for Settings
   ];
 
   void _onItemTapped(int index) {
@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
         title: const Text('Jayhawk Liquor Inventory'),
+        foregroundColor: Colors.white,
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
