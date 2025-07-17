@@ -163,6 +163,7 @@ class _AddProductPageState extends State<AddProductPage> {
     // If initialProductId is provided, set it to the barcode controller (only once)
     if (widget.initialProductId != null && _barcodeController.text.isEmpty) {
       _barcodeController.text = widget.initialProductId!;
+      _searchProduct(); // Automatically search for the product
     }
     return Scaffold(
       appBar: AppBar(title: const Text('Add Product')),
